@@ -1,60 +1,55 @@
-# SmartHome_IoT
-AWS IoT Smart Home Infrastructure using Terraform - Includes IoT Core, Lambda, API Gateway, and DynamoDB for real-time device communication and data storage.
-# AWS IoT Smart Home Project
+# Smart Surveillance IoT Infrastructure
 
-This project implements a smart home IoT solution using AWS services. It includes real-time device communication, data processing, and secure storage.
+## Overview
+This project implements a smart surveillance system using AWS services. The system captures live video streams, processes metadata, analyzes video content, and securely stores data for analysis and retrieval. The infrastructure is deployed using Terraform.
 
-## Architecture Overview
+## Architecture
+### Key Components:
+- **Amazon Kinesis Video Streams** – Captures and streams live video from smart cameras.
+- **AWS Lambda (Extract Metadata Function)** – Processes video metadata and stores relevant details.
+- **AWS Lambda (Analyze Video Function)** – Uses Amazon Rekognition to analyze video frames for object detection and alerts.
+- **Amazon DynamoDB** – Stores video metadata for easy querying.
+- **Amazon S3** – Stores recorded video files.
+- **Amazon SNS** – Sends alerts when certain objects or activities are detected.
+- **Amazon API Gateway** – Provides a secure endpoint for interacting with the system.
 
-- **AWS IoT Core**: Manages communication between IoT devices and AWS services.
-- **AWS Lambda**: Processes incoming device data.
-- **Amazon DynamoDB**: Stores device state and metadata.
-- **Amazon API Gateway**: Exposes an API for smart home devices.
-- **AWS IAM**: Manages permissions and security policies.
+## Files and Directories
+### Terraform Configuration:
+- `main.tf` – Defines the AWS resources and infrastructure setup.
+- `variables.tf` – Stores configurable parameters for the deployment.
+- `outputs.tf` – Defines the outputs of the Terraform deployment.
 
-## Infrastructure as Code (IaC)
+### AWS Services Implemented:
+- **IoT Core (Removed in favor of Kinesis)** – Initially used for processing but later optimized.
+- **Kinesis Video Streams** – Handles video input and streaming.
+- **Lambda (Extract Metadata Function)** – Extracts and processes video metadata.
+- **Lambda (Analyze Video Function)** – Analyzes video frames using AWS Rekognition.
+- **DynamoDB** – Stores structured metadata for efficient lookup.
+- **S3** – Saves actual video footage.
+- **SNS** – Sends alerts based on detected events.
+- **API Gateway** – Exposes APIs for metadata retrieval.
 
-The project is deployed using **Terraform**, ensuring reproducibility and easy management.
+## How It Works
+1. **Video Capture** – Smart cameras send video streams to Kinesis Video Streams.
+2. **Metadata Extraction** – A Lambda function extracts metadata (timestamp, camera ID, etc.).
+3. **Metadata Storage** – The metadata is stored in DynamoDB for quick queries.
+4. **Video Storage** – The full video recordings are saved in Amazon S3.
+5. **Video Analysis** – A second Lambda function processes frames using AWS Rekognition to detect objects and trigger alerts.
+6. **Alerts & Notifications** – If Rekognition detects an event, SNS sends an alert.
+7. **API Access** – Users can retrieve metadata via API Gateway.
 
-### Resources Defined:
-
-1. **AWS IoT Core**: Defines an IoT thing and policy for communication.
-2. **IoT Topic Rule**: Triggers a Lambda function when data is received.
-3. **Lambda Function**: Processes device data.
-4. **IAM Role**: Grants permissions to the Lambda function.
-5. **API Gateway**: Enables external access to smart home data.
-6. **DynamoDB Table**: Stores device data for querying.
-
-## Deployment Steps
-
-1. Install Terraform and AWS CLI.
-2. Configure AWS credentials.
-3. Run `terraform init` to initialize the project.
-4. Run `terraform apply` to deploy resources.
-5. Upload the Lambda function zip file to S3 and update the function code.
+## Deployment
+To deploy this project:
+1. Ensure you have Terraform installed.
+2. Initialize Terraform: `terraform init`
+3. Plan the deployment: `terraform plan`
+4. Apply the deployment: `terraform apply`
 
 ## Future Enhancements
-
-- **Integration with AWS S3**: Store images or videos captured by smart home devices.
-- **AWS Kinesis Data Streams**: Implement real-time data streaming and analytics.
-- **Machine Learning Integration**: Analyze smart home data for predictive maintenance.
-- **Frontend Dashboard**: Develop a user-friendly interface for controlling devices.
-- **Enhanced Security Measures**: Implement encryption and role-based access controls.
-- **Multi-Region Deployment**: Improve reliability by deploying across multiple AWS regions.
-
-## Repository Structure
-
-```
-|-- main.tf (Terraform configurations)
-|-- variables.tf (Variables for customization)
-|-- lambda_function/ (Lambda function code)
-|-- README.md (Project documentation)
-```
-
-## Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
+- Implement AI-based video analysis for facial recognition.
+- Add more event-driven alerts using AWS SNS.
+- Improve API security with authentication and authorization.
+- Introduce real-time dashboard visualization for detected events.
 
 ## License
-
-This project is licensed under the MIT License.
+This project is open-source and available for use.
