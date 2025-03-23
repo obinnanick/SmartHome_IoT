@@ -16,8 +16,6 @@ This project implements a smart surveillance system using AWS services. The syst
 ## Files and Directories
 ### Terraform Configuration:
 - `main.tf` – Defines the AWS resources and infrastructure setup.
-- `variables.tf` – Stores configurable parameters for the deployment.
-- `outputs.tf` – Defines the outputs of the Terraform deployment.
 
 ### AWS Services Implemented:
 - **IoT Core (Removed in favor of Kinesis)** – Initially used for processing but later optimized.
